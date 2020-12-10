@@ -18,6 +18,13 @@ void setup() {
   digitalWrite(LED, LOW);
   delay(500);
 }
-}
 void loop() {
+     if (digitalRead(BUTTON) == LOW) { //Jesli przycisk jest wcisniety...
+    digitalWrite(LED, HIGH);
+    digitalWrite(BUZZER, HIGH);   
+    delay(500);
+  } else { //Jesli przycisk nie jest wcisniety...
+    digitalWrite(LED, LOW);
+    digitalWrite(BUZZER, LOW);
+  }
 }
