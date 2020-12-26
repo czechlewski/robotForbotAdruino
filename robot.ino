@@ -11,7 +11,26 @@ void setup() {
   pinMode(R_PWM, OUTPUT);
   }
 void loop() {
+    for (int i = 0; i < 30 ; i++)
+    {
+        leftMotor(i);
+        rightMotor(i);
+    }
+    delay(2000);
+    leftMotor(20);
+    rightMotor(-20);
+    delay(3000);
+    for (int i = 0; i < 30 ; i++)
+    {
+        leftMotor(-i);
+        rightMotor(-i);
+    }
+    delay(2000);
+    leftMotor(-20);
+    rightMotor(20);
+    delay(3000);
 }
+
 void leftMotor(int V){
     if (V>0){
         V = map(V, 0, 100, 0, PWM_MAX);
