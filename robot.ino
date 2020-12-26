@@ -1,34 +1,31 @@
-#define PWM_MAX 165
 #define L_PWM 5
 #define L_DIR 4
 #define R_PWM 6
 #define R_DIR 9
+#define PWM_MAX 165
+
+#define R_LIGHT_SENSOR A0
+#define L_LIGHT_SENSOR A1
+#define BUZZER 10
 void setup() {
 //Konfiguracja pinow od mostka H
   pinMode(L_DIR, OUTPUT);
   pinMode(R_DIR, OUTPUT);
   pinMode(L_PWM, OUTPUT);
   pinMode(R_PWM, OUTPUT);
-  }
+  
+  Serial.begin(9600);
+}
 void loop() {
-    for (int i = 0; i < 30 ; i++)
-    {
-        leftMotor(i);
-        rightMotor(i);
-    }
-    delay(2000);
-    leftMotor(20);
-    rightMotor(-20);
-    delay(3000);
-    for (int i = 0; i < 30 ; i++)
-    {
-        leftMotor(-i);
-        rightMotor(-i);
-    }
-    delay(2000);
-    leftMotor(-20);
-    rightMotor(20);
-    delay(3000);
+    int odczytLewy = analogRead(L_LIGHT_SENSOR);    
+    int odczytPrawy = analogRead(R_LIGHT_SENSOR);
+ 
+    Serial.print("Lewa strona: ");
+    Serial.print(odczytLewy);
+    Serial.print(" | ");
+    Serial.print("Prawa strona: ");
+    Serial.println(odczytPrawy);
+    delay(1000);
 }
 
 void leftMotor(int V){
