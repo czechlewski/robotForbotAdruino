@@ -37,6 +37,10 @@ void setup() {
 
   Serial.begin(9600);
 }
+
+int velocity = 25;
+byte togglePrev = 0;
+
 void loop() {
     if (rc5.read(&toggle, &address, &command)){
         Serial.print("A:");
@@ -47,11 +51,11 @@ void loop() {
         Serial.println(toggle);
      switch(command) {
         case 80: //forward
-          moveForward(30);
+          moveForward(velocity);
           break;
  
         case 81: //backward
-          moveBackward(30);
+          moveBackward(velocity);
           break;
  
         case 87: //stop
@@ -59,11 +63,11 @@ void loop() {
          break;
  
         case 85: //turn left
-          turnLeft(30);
+          turnLeft(velocity);
           break;   
       
         case 86: //turn right
-          turnRight(30);
+          turnRight(velocity);
           break;       
       
         case 13:
@@ -78,7 +82,17 @@ void loop() {
           break;
     }
   }
-}
+  if (toggle == togglePrev) {
+      velocity++;
+ 
+      if (velocity >= 60) {
+        velocity = 25; 
+      }
+    } else {
+      velocity = 25;    
+    }
+    togglePrev = toggle;
+  }
 //motor Functions
 void leftMotor(int V){
     if (V>0){
