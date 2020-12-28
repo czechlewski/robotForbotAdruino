@@ -11,6 +11,16 @@
 
 #define DIODE 13
 #define BUZZER 10
+
+#define TSOP_PIN 3
+#include <RC5.h>
+
+RC5 rc5(TSOP_PIN);
+
+byte address; 
+byte command;
+byte toggle;
+
 void setup() {
 //H bridge configuration 
   pinMode(L_DIR, OUTPUT);
@@ -18,24 +28,44 @@ void setup() {
   pinMode(L_PWM, OUTPUT);
   pinMode(R_PWM, OUTPUT);
 
+//buzzer configuration
   pinMode(BUZZER, OUTPUT);
   digitalWrite(BUZZER, 0);
-
+//diode 13 configuration
   pinMode(DIODE, OUTPUT);
   digitalWrite(DIODE, 0);
+
+  Serial.begin(9600);
 }
 void loop() {
-    int odczytLewy = analogRead(L_LIGHT_SENSOR);    
-    int odczytPrawy = analogRead(R_LIGHT_SENSOR);
-    int roznica = odczytLewy - odczytPrawy;
-    if (roznica < ROZNICA_MIN) { 
-    roznica = ROZNICA_MIN; 
-  } else if (roznica > ROZNICA_MAX) { 
-    roznica = ROZNICA_MAX; 
+    if (rc5.read(&toggle, &address, &command)){
+     switch(command) {
+      case 80: //forward
+          moveForward(30);
+          break;
+ 
+      case 81: //backward
+          moveBackward(30);
+          break;
+ 
+      case 87: //stop
+        stopMotors();
+      break;
+ 
+      case 85: //turn left
+          turnLeft(30);
+          break;   
+      
+      case 86: //turn right
+          turnRight(30);
+          break;       
+      
+      case 13:
+          buzzer(250, 1);
+          diode13(250, 1);
+          break;
+    }
   }
-  int zmianaPredkosci = map(roznica, ROZNICA_MIN, ROZNICA_MAX, -20, 20);        
-  leftMotor(30+zmianaPredkosci);
-  rightMotor(30-zmianaPredkosci);
 }
 //motor Functions
 void leftMotor(int V){
@@ -73,6 +103,11 @@ void stopMotors(){
 void moveForward(int V){
     leftMotor(V);
     rightMotor(V);
+}
+
+void moveBackward(int V){
+    leftMotor(-V);
+    rightMotor(-V);
 }
 void turnLeft(int V){
     leftMotor(-V);
