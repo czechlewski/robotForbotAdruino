@@ -39,30 +39,42 @@ void setup() {
 }
 void loop() {
     if (rc5.read(&toggle, &address, &command)){
+        Serial.print("A:");
+        Serial.print(address);
+        Serial.print(" K:");
+        Serial.print(command);
+        Serial.print(" T:");
+        Serial.println(toggle);
      switch(command) {
-      case 80: //forward
+        case 80: //forward
           moveForward(30);
           break;
  
-      case 81: //backward
+        case 81: //backward
           moveBackward(30);
           break;
  
-      case 87: //stop
+        case 87: //stop
         stopMotors();
-      break;
+         break;
  
-      case 85: //turn left
+        case 85: //turn left
           turnLeft(30);
           break;   
       
-      case 86: //turn right
+        case 86: //turn right
           turnRight(30);
           break;       
       
-      case 13:
+        case 13:
+          buzzer(500, 1);
+          break;
+
+        case 107:
           buzzer(250, 1);
-          diode13(250, 1);
+          break;
+        case 110:
+          diode13(250, 3);
           break;
     }
   }
@@ -133,5 +145,6 @@ void diode13(int t, int n){
     digitalWrite(DIODE,1);
     delay(t);
     digitalWrite(DIODE,0);
+    delay(t);
     }
 }
