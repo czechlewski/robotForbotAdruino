@@ -12,7 +12,7 @@
 #define DIODE 13
 #define BUZZER 10
 void setup() {
-//Konfiguracja pinow od mostka H
+//H bridge configuration 
   pinMode(L_DIR, OUTPUT);
   pinMode(R_DIR, OUTPUT);
   pinMode(L_PWM, OUTPUT);
@@ -34,34 +34,35 @@ void loop() {
     roznica = ROZNICA_MAX; 
   }
   int zmianaPredkosci = map(roznica, ROZNICA_MIN, ROZNICA_MAX, -20, 20);        
-  leftMotor(20+zmianaPredkosci);
-  rightMotor(20-zmianaPredkosci);
+  leftMotor(30+zmianaPredkosci);
+  rightMotor(30-zmianaPredkosci);
 }
+//motor Functions
 void leftMotor(int V){
     if (V>0){
         V = map(V, 0, 100, 0, PWM_MAX);
-        digitalWrite(L_DIR, 0);
+        digitalWrite(L_DIR, 1);
         analogWrite(L_PWM, V);
     } 
     else
     {
     V = abs(V); 
     V = map(V, 0, 100, 0, PWM_MAX);
-    digitalWrite(L_DIR, 1);
+    digitalWrite(L_DIR, 0);
     analogWrite(L_PWM, V); 
     }
 } 
 void rightMotor(int V){
     if (V>0){
         V = map(V, 0, 100, 0, PWM_MAX);
-        digitalWrite(R_DIR, 0);
+        digitalWrite(R_DIR, 1);
         analogWrite(R_PWM, V);
     } 
     else
     {
     V = abs(V); 
     V = map(V, 0, 100, 0, PWM_MAX);
-    digitalWrite(R_DIR, 1);
+    digitalWrite(R_DIR, 0);
     analogWrite(R_PWM, V); 
     }
 } 
@@ -81,16 +82,21 @@ void turnRight(int V){
     leftMotor(V);
     rightMotor(-V);
 }
-void dioBuzz(int t){
-    digitalWrite(DIODE, 1);
+//buzzer 
+void buzzer(int t, int n){
+    for (int i = 0; i < n; i++)
+    {
     digitalWrite(BUZZER, 1);
     delay(t);
-    digitalWrite(DIODE, 0);
     digitalWrite(BUZZER,0);
-    delay(t);
+    }
 }
-void dirChange(int t){
-    dioBuzz(t);
-    dioBuzz(t);
-    dioBuzz(t);
+//diode 13    
+void diode13(int t, int n){
+    for (int i = 0; i < n; i++)
+    {
+    digitalWrite(DIODE,1);
+    delay(t);
+    digitalWrite(DIODE,0);
+    }
 }
