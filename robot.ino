@@ -13,8 +13,8 @@
 #define BUZZER 10
 
 #define TSOP_PIN 3
-#include <RC5.h>
 
+#include <RC5.h>
 RC5 rc5(TSOP_PIN);
 
 byte address; 
@@ -51,48 +51,36 @@ void loop() {
         Serial.println(toggle);
      switch(command) {
         case 80: //forward
+          acceleration();
           moveForward(velocity);
           break;
- 
         case 81: //backward
+          acceleration();
           moveBackward(velocity);
           break;
- 
         case 87: //stop
-        stopMotors();
-         break;
- 
+          stopMotors();
+          break;
         case 85: //turn left
+          acceleration();
           turnLeft(velocity);
-          break;   
-      
+          break;
         case 86: //turn right
+          acceleration();
           turnRight(velocity);
           break;       
-      
         case 13:
           buzzer(500, 1);
           break;
-
         case 107:
           buzzer(250, 1);
           break;
-        case 110:
+        case 109:
           diode13(250, 3);
           break;
     }
   }
-  if (toggle == togglePrev) {
-      velocity++;
- 
-      if (velocity >= 60) {
-        velocity = 25; 
-      }
-    } else {
-      velocity = 25;    
-    }
-    togglePrev = toggle;
-  }
+}
 //motor Functions
 void leftMotor(int V){
     if (V>0){
@@ -100,8 +88,7 @@ void leftMotor(int V){
         digitalWrite(L_DIR, 1);
         analogWrite(L_PWM, V);
     } 
-    else
-    {
+    else{
     V = abs(V); 
     V = map(V, 0, 100, 0, PWM_MAX);
     digitalWrite(L_DIR, 0);
@@ -126,6 +113,7 @@ void stopMotors(){
     analogWrite(L_PWM, 0);
     analogWrite(R_PWM, 0);
 }
+
 void moveForward(int V){
     leftMotor(V);
     rightMotor(V);
@@ -161,4 +149,15 @@ void diode13(int t, int n){
     digitalWrite(DIODE,0);
     delay(t);
     }
+}
+void acceleration(){
+if (toggle == togglePrev) {
+          velocity++;
+          if (velocity >= 80) {
+          velocity = 25; 
+          }
+          } else {
+          velocity = 25;    
+          }
+          togglePrev = toggle;
 }
