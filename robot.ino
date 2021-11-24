@@ -102,12 +102,19 @@ void loop() {
           digitalWrite(DIODE_WL, 0);
           acceleration();
           turnRight(velocity);
-          break;       
-        case 13:
-          buzzer(500, 1);
           break;
         case 107:
           buzzer(250, 1);
+          break;
+        case 108:
+          digitalWrite(DIODE_R, 1);
+          digitalWrite(DIODE_Y, 1);
+          digitalWrite(DIODE_WR, 0);
+          digitalWrite(DIODE_WL, 0);
+          diode13(250, 3);
+          buzzer(250, 1);
+          digitalWrite(DIODE_R, 0);
+          digitalWrite(DIODE_Y, 0);
           break;
         case 109:
           diode13(250, 3);
