@@ -119,6 +119,13 @@ void loop() {
         case 109:
           diode13(250, 3);
           break;
+        case 110:
+          digitalWrite(DIODE_WR, 1);
+          digitalWrite(DIODE_WL, 1);
+          delay(1000);
+          digitalWrite(DIODE_WR, 0);
+          digitalWrite(DIODE_WL, 0);
+        break;
     }
   }
 }
