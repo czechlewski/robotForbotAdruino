@@ -68,7 +68,25 @@ void loop() {
           acceleration();
           moveForward(velocity);
           break;
+          case 2: //forward
+          digitalWrite(DIODE_R, 0);
+          digitalWrite(DIODE_Y, 0);
+          digitalWrite(DIODE_WL, 1);
+          digitalWrite(DIODE_WR, 1);
+          acceleration();
+          moveForward(velocity);
+          break;
         case 81: //backward
+          digitalWrite(DIODE_WL, 0);
+          digitalWrite(DIODE_WR, 0);
+          digitalWrite(DIODE_R, 0);
+          digitalWrite(DIODE_Y, 1);
+          delay(500);
+          digitalWrite(DIODE_Y, 0);
+          acceleration();
+          moveBackward(velocity);
+          break;
+          case 0: //backward
           digitalWrite(DIODE_WL, 0);
           digitalWrite(DIODE_WR, 0);
           digitalWrite(DIODE_R, 0);
@@ -87,6 +105,15 @@ void loop() {
           digitalWrite(DIODE_R, 0);
           stopMotors();
           break;
+          case 5: //stop
+          digitalWrite(DIODE_WL, 0);
+          digitalWrite(DIODE_WR, 0);
+          digitalWrite(DIODE_Y, 0);
+          digitalWrite(DIODE_R, 1);
+          delay(500);
+          digitalWrite(DIODE_R, 0);
+          stopMotors();
+          break;
         case 85: //turn left
           digitalWrite(DIODE_R, 0);
           digitalWrite(DIODE_Y, 0);
@@ -95,7 +122,23 @@ void loop() {
           acceleration();
           turnLeft(velocity);
           break;
+          case 4: //turn left
+          digitalWrite(DIODE_R, 0);
+          digitalWrite(DIODE_Y, 0);
+          digitalWrite(DIODE_WR, 0);
+          digitalWrite(DIODE_WL, 1);     
+          acceleration();
+          turnLeft(velocity);
+          break;
         case 86: //turn right
+          digitalWrite(DIODE_R, 0);
+          digitalWrite(DIODE_Y, 0);
+          digitalWrite(DIODE_WR, 1);
+          digitalWrite(DIODE_WL, 0);
+          acceleration();
+          turnRight(velocity);
+          break;
+          case 6: //turn right
           digitalWrite(DIODE_R, 0);
           digitalWrite(DIODE_Y, 0);
           digitalWrite(DIODE_WR, 1);
